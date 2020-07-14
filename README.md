@@ -15,5 +15,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## Examples
 cdk synth -c env=dev --profile my-profile
+
 cdk deploy -c env=dev --profile my-profile
+
 cdk destroy -c env=dev --profile my-profile
