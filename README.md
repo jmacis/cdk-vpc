@@ -13,4 +13,5 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
  * `cdk diff`        compare deployed stack with current state
  * `cdk synth`       emits the synthesized CloudFormation template
 
+## Example
 cdk synth -c env=dev --profile ext-jmacis
