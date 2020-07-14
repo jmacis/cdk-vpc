@@ -13,7 +13,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
  * `cdk diff`        compare deployed stack with current state
  * `cdk synth`       emits the synthesized CloudFormation template
 
-## Example
+## Examples
 cdk synth -c env=dev --profile my-profile
 cdk deploy -c env=dev --profile my-profile
 cdk destroy -c env=dev --profile my-profile
