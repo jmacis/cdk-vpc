@@ -14,8 +14,6 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
  * `cdk synth`       emits the synthesized CloudFormation template
 
 ## Examples
-cdk synth -c env=dev --profile my-profile
-xxx
-cdk deploy -c env=dev --profile my-profile
-acc
-cdk destroy -c env=dev --profile my-profile
+cdk synth -c env=dev --profile my-profile <br />
+cdk deploy -c env=dev --profile my-profile <br />
+cdk destroy -c env=dev --profile my-profile <br />
