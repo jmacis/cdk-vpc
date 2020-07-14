@@ -10,7 +10,7 @@ const app = new cdk.App();
 
 const env = app.node.tryGetContext('env');
 if (env === undefined) {
-    throw new Error('Environment must be given');
+    throw new Error('Environment must be passed command argument');
 }
 
 const stack = new CdkVpcStack(app, 'CdkVpcStack', {

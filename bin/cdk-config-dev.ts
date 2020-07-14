@@ -1,5 +1,5 @@
 
-// Structure for tagging objects created
+// structure for tagging objects created
 interface Tag {
     name: string;
     value: string;
