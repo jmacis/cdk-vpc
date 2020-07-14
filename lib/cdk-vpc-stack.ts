@@ -17,9 +17,5 @@ export class CdkVpcStack extends cdk.Stack {
 
     // create vpc resource
     const vpc = new VpcStack(this, 'VPC-STACK', vpcProps);
-
-    // const vpc = new ec2.Vpc(this, "VPC", {
-    //   maxAzs: 2
-    // });
   }
 }
