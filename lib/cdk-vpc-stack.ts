@@ -1,21 +1,20 @@
 import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import { VpcStack } from './cdkVpcStack';
-import { appendFile } from 'fs';
+import { Config } from '../bin/config';
+import { VpcStack } from './cdk-vpc';
 
 export class CdkVpcStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps, config: Config) {
     super(scope, id, props);
 
-    const environment = scope.node.tryGetContext('env');
+    // cmdline arg env
+    const env = scope.node.tryGetContext('env');
+
     const vpcProps = {
-      name: `VPC-${environment}`,
-      environment: environment,
-      cidr: '10.1.0.0/16',
+      name: 'Vpc',
       maxAzs: 2
     };
 
     // create vpc resource
-    const vpc = new VpcStack(this, 'VPC-STACK', vpcProps);
+    const vpcStackEntity = new VpcStack(this, 'VpcStack', vpcProps, config);
   }
 }
