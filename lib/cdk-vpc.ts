@@ -44,7 +44,7 @@ export class VpcStack extends cdk.Construct {
                 ],
                 natGateways: config.vpc.natGateways
             });
-            config.awsConsole
+
             // create cfn output vpc id
             new cdk.CfnOutput(this, 'VpcIdOutput', {
                 description: 'CDK Vpc Id',
