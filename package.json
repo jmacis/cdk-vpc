@@ -1,6 +1,7 @@
 {
   "name": "cdk-vpc",
   "version": "0.1.0",
+  "license": "UNLICENSED",
   "bin": {
     "cdk-vpc": "bin/cdk-vpc.js"
   },
@@ -8,21 +9,40 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "deploy": "cdk deploy -c env=$NODE_ENV -c vpcid=$npm_config_vpcid --profile $npm_config_profile",
+    "deploy:development": "NODE_ENV=development dotenv -e .env.development npm run deploy",
+    "deploy:staging": "NODE_ENV=staging dotenv -e .env.staging npm run deploy",
+    "deploy:production": "NODE_ENV=production dotenv -e .env.production npm run deploy",
+    "synth": "cdk synth -c env=$NODE_ENV -c vpcid=$npm_config_vpcid --profile $npm_config_profile",
+    "synth:development": "NODE_ENV=development dotenv -e .env.development npm run synth",
+    "synth:staging": "NODE_ENV=staging dotenv -e .env.staging npm run synth",
+    "synth:production": "NODE_ENV=production dotenv -e .env.production npm run synth",
+    "destroy": "cdk destroy -c env=$NODE_ENV -c vpcid=$npm_config_vpcid --profile $npm_config_profile",
+    "destroy:development": "NODE_ENV=development dotenv -e .env.development npm run destroy",
+    "destroy:staging": "NODE_ENV=staging dotenv -e .env.staging npm run destroy",
+    "destroy:production": "NODE_ENV=production dotenv -e .env.production npm run destroy",
+    "diff": "cdk diff -c env=$NODE_ENV -c vpcid=$npm_config_vpcid --profile $npm_config_profile",
+    "diff:development": "NODE_ENV=development dotenv -e .env.development npm run diff",
+    "diff:staging": "NODE_ENV=staging dotenv -e .env.staging npm run diff",
+    "diff:production": "NODE_ENV=production dotenv -e .env.production npm run diff",
+    "list": "cdk list -c env=$NODE_ENV --profile $npm_config_profile",
+    "list:development": "NODE_ENV=development dotenv -e .env.development npm run list"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.51.0",
+    "@aws-cdk/assert": "1.56.0",
     "@types/jest": "^25.2.1",
     "@types/node": "10.17.5",
     "jest": "^25.5.0",
     "ts-jest": "^25.3.1",
-    "aws-cdk": "1.51.0",
+    "aws-cdk": "1.56.0",
     "ts-node": "^8.1.0",
     "typescript": "~3.7.2"
   },
   "dependencies": {
-    "@aws-cdk/aws-ec2": "^1.51.0",
-    "@aws-cdk/core": "1.51.0",
+    "@aws-cdk/aws-ec2": "^1.56.0",
+    "@aws-cdk/core": "1.56.0",
+    "dotenv-cli": "^3.2.0",
     "source-map-support": "^0.5.16"
   }
 }
