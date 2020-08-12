@@ -12,10 +12,16 @@ export interface VpcConfig {
     natGateways: number;
 }
 
+export interface SamConfig {
+    applicationId: string;
+    semanticVersion: string;
+    functionName: string;
+}
 export interface Config {
     host: string;
     awsConsole: string;
     vpc: VpcConfig;
+    sam: SamConfig;
 }
 
 function assert(value: any): any {
@@ -36,6 +42,12 @@ export function getConfig(): Config {
             subnetPublicCidrMask: Number(assert(process.env.VPC_SUBNET_PUBLIC_CIDR_MASK)),
             subnetPrivateCidrMask: Number(assert(process.env.VPC_SUBNET_PRIVATE_CIDR_MASK)),
             natGateways: Number(assert(process.env.VPC_NAT_GATEWAYS)),
+        },
+        sam: {
+            applicationId: assert(configProps[`${env}`][`${region}`][`${account}`].samApplicationId),
+            semanticVersion: assert(process.env.SAM_SEMANTIC_VERSION),
+            functionName: assert(process.env.SAM_LAMBDA_FUNCTION),
+
         }
     };
 }
@@ -43,18 +55,19 @@ export function getConfig(): Config {
 export const configPropsDev: { [key: string]: { [key: string]: { [key: string]: any } } } = {
     'us-east-1': {
         '009963118558': {
+            samApplicationId: 'arn:aws:serverlessrepo:us-east-1:297356227824:applications/SecretsManagerRDSPostgreSQLRotationSingleUser'
 
         },
         '083258740834': {
-
+            samApplicationId: undefined
         }
     },
     'us-west-2': {
         '009963118558': {
-
+            samApplicationId: undefined
         },
         '083258740834': {
-
+            samApplicationId: undefined
         }
     }
 };
@@ -62,18 +75,18 @@ export const configPropsDev: { [key: string]: { [key: string]: { [key: string]: 
 export const configPropsStag: { [key: string]: { [key: string]: { [key: string]: any } } } = {
     'us-east-1': {
         '009963118558': {
-
+            samApplicationId: undefined
         },
         '083258740834': {
-
+            samApplicationId: undefined
         }
     },
     'us-west-2': {
         '009963118558': {
-
+            samApplicationId: undefined
         },
         '083258740834': {
-
+            samApplicationId: undefined
         }
     }
 };
@@ -81,18 +94,18 @@ export const configPropsStag: { [key: string]: { [key: string]: { [key: string]:
 export const configPropsProd: { [key: string]: { [key: string]: { [key: string]: any } } } = {
     'us-east-1': {
         '009963118558': {
-
+            samApplicationId: undefined
         },
         '083258740834': {
-
+            samApplicationId: undefined
         }
     },
     'us-west-2': {
         '009963118558': {
-
+            samApplicationId: undefined
         },
         '083258740834': {
-
+            samApplicationId: undefined
         }
     }
 };

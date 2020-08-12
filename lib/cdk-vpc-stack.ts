@@ -1,6 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import { Config } from '../bin/config';
 import { VpcStack } from './cdk-vpc';
+import { LambdaStack } from './cdk-lambda';
 
 export class CdkVpcStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: cdk.StackProps, config: Config) {
@@ -16,5 +17,13 @@ export class CdkVpcStack extends cdk.Stack {
 
     // create vpc resource
     const vpcStackEntity = new VpcStack(this, 'VpcStack', vpcProps, config);
+
+    const lambdaProps = {
+      vpc: vpcStackEntity.vpc,
+      publicSecurityGroup: vpcStackEntity.publicSecurityGroup,
+    };
+
+    // create sam lambda function rotate SecretsManager
+    const lambdaStackEntity = new LambdaStack(this, 'LambdaStack', lambdaProps, config);
   }
 }
