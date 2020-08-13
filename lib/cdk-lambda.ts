@@ -5,7 +5,7 @@ import { IVpc, SubnetType, SecurityGroup } from '@aws-cdk/aws-ec2'
 
 export interface lambdaProps {
     vpc: IVpc;
-    publicSecurityGroup: SecurityGroup;
+    rdsInstanceSecurityGroup: SecurityGroup;
 }
 
 export class LambdaStack extends cdk.Construct {
@@ -22,7 +22,7 @@ export class LambdaStack extends cdk.Construct {
                 endpoint: `https://secretsmanager.${cdk.Aws.REGION}.amazonaws.com`,
                 functionName: config.sam.functionName,
                 vpcSubnetIds: props.vpc.selectSubnets({ subnetType: SubnetType.PUBLIC }).subnetIds.toString(),
-                vpcSecurityGroupIds: props.publicSecurityGroup.securityGroupId,
+                vpcSecurityGroupIds: props.rdsInstanceSecurityGroup.securityGroupId,
             }
         });
     }

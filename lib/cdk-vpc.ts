@@ -15,7 +15,8 @@ export class VpcStack extends cdk.Construct {
     public readonly vpc: ec2.IVpc;
     public readonly privateSubnetConfiguration: ec2.SubnetConfiguration;
     public readonly publicSubnetConfiguration: ec2.SubnetConfiguration;
-    public readonly publicSecurityGroup: ec2.SecurityGroup;
+    public readonly rdsInstanceSecurityGroup: ec2.SecurityGroup;
+    public readonly readReplicaSecurityGroup: ec2.SecurityGroup;
 
     constructor(scope: cdk.Construct, id: string, props: VpcProps, config: Config) {
         super(scope, id);
@@ -78,19 +79,21 @@ export class VpcStack extends cdk.Construct {
             });
         }
 
-        // create public security group resource
-        this.publicSecurityGroup = new ec2.SecurityGroup(this, 'SecurityGroup', {
+        // create rds instance security group resource
+        this.rdsInstanceSecurityGroup = new ec2.SecurityGroup(this, 'RdsInstanceSecurityGroup', {
             vpc: this.vpc,
             allowAllOutbound: true,
             description: 'Security Group for RdsInstance database',
             // securityGroupName: 'cdk-vpc-rds-masterdatabase',
         });
 
-        // create ingress rule port 5432
-        // publicSecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(5432), 'from 0.0.0.0/0:{IndirectPort}');
-
-        // create ingress rule lambda port 443
-        // publicSecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443), 'from 0.0.0.0/0:443');
+        // create readreplica security group resource
+        this.readReplicaSecurityGroup = new ec2.SecurityGroup(this, 'ReadReplicaSecurityGroup', {
+            vpc: this.vpc,
+            allowAllOutbound: true,
+            description: 'Security Group for ReadReplica database',
+            // securityGroupName: 'cdk-vpc-rds-readreplica',
+        });
 
         // // create secrets manager vpc end point
         // const secretsManagerVpcEndpoint = new ec2.CfnVPCEndpoint(this, 'VpcEndpoint', {
@@ -99,18 +102,18 @@ export class VpcStack extends cdk.Construct {
         //     vpcEndpointType: 'Interface',
         //     privateDnsEnabled: true,
         //     subnetIds: ['subnet-0d869ec91ded8d4be', 'subnet-0bbb2ac214f7ca33e'],
-        //     securityGroupIds: [publicSecurityGroup.securityGroupId]
+        //     securityGroupIds: [this.rdsInstanceSecurityGroup.securityGroupId]
         // });
 
         // create secrets manager vpc end point
         const vpcEndpoint = this.vpc.addInterfaceEndpoint('SecretsManagerVpcEndpoint', {
             service: ec2.InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
-            securityGroups: [this.publicSecurityGroup],
+            securityGroups: [this.rdsInstanceSecurityGroup],
             subnets: this.vpc.selectSubnets({ subnetType: ec2.SubnetType.PUBLIC }),
             privateDnsEnabled: true
         });
 
-        // @TODO moved to lambda
+        // @TODO moved to vpc
         // const samApp = new sam.CfnApplication(this, 'CfnApplication', {
         //     location: {
         //         applicationId: "arn:aws:serverlessrepo:us-east-1:297356227824:applications/SecretsManagerRDSPostgreSQLRotationSingleUser",
@@ -120,7 +123,7 @@ export class VpcStack extends cdk.Construct {
         //         endpoint: `https://secretsmanager.${this.vpc.stack.region}.amazonaws.com`,
         //         functionName: 'MyLambdaRotationFunctionTest',
         //         vpcSubnetIds: this.vpc.selectSubnets({ subnetType: ec2.SubnetType.PUBLIC }).subnetIds.toString(),
-        //         vpcSecurityGroupIds: this.publicSecurityGroup.securityGroupId
+        //         vpcSecurityGroupIds: this.rdsInstanceSecurityGroup.securityGroupId
         //     }
         // });
 
