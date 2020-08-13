@@ -23,3 +23,14 @@ cdk synth -c env=development --profile my-profile <br />
 cdk diff -c env=development --profile my-profile <br />
 cdk deploy -c env=development --profile my-profile <br />
 cdk destroy -c env=development --profile my-profile <br />
+
+## Create Resources
+1 VPC <br />
+1 Internet Gateway <br />
+4 Route Table <br />
+2 Private Subnets <br />
+2 Public Subnets <br />
+1 Rds Instance Security Groups <br />
+1 Read Replica Security Groups <br />
+1 (SAM) Serverless Application Model Cfn Application
+1 Lambda Function Rotate Secrets
