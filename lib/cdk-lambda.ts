@@ -26,5 +26,17 @@ export class LambdaStack extends cdk.Construct {
                 vpcSecurityGroupIds: props.secretsLambdaSecurityGroup.securityGroupId,
             }
         });
+
+        // create cfn output lambda function
+        new cdk.CfnOutput(this, 'FunctionIdentifier', {
+            description: 'CDK VPC Lambda Function',
+            value: `${config.awsConsole}/lambda/home?region=${cdk.Aws.REGION}#/functions/${config.sam.functionName}`
+        });
+
+        // create cfn output sam application
+        new cdk.CfnOutput(this, 'SamAppIdentifier', {
+            description: 'CDK VPC SAM Application',
+            value: `${config.awsConsole}/lambda/home?region=${cdk.Aws.REGION}#/applications/${this.samApp.stack.stackName}`
+        });
     }
 }
