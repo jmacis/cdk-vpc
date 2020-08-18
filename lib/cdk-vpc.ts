@@ -17,6 +17,8 @@ export class VpcStack extends cdk.Construct {
     public readonly publicSubnetConfiguration: ec2.SubnetConfiguration;
     public readonly rdsInstanceSecurityGroup: ec2.SecurityGroup;
     public readonly readReplicaSecurityGroup: ec2.SecurityGroup;
+    public readonly ec2BastionSecurityGroup: ec2.SecurityGroup;
+    public readonly secretsLambdaSecurityGroup: ec2.SecurityGroup;
 
     constructor(scope: cdk.Construct, id: string, props: VpcProps, config: Config) {
         super(scope, id);
@@ -95,6 +97,20 @@ export class VpcStack extends cdk.Construct {
             // securityGroupName: 'cdk-vpc-rds-readreplica',
         });
 
+        // create ec2 bastion security group resource
+        this.ec2BastionSecurityGroup = new ec2.SecurityGroup(this, 'Ec2BastionSecurityGroup', {
+            vpc: this.vpc,
+            allowAllOutbound: true,
+            description: 'Security Group for EC2 Bastion database'
+        });
+
+        // create secrets manager lambda security group resource
+        this.secretsLambdaSecurityGroup = new ec2.SecurityGroup(this, 'SecretsLambdaSecurityGroup', {
+            vpc: this.vpc,
+            allowAllOutbound: true,
+            description: 'Security Group for Secrets Lambda database'
+        });
+
         // // create secrets manager vpc end point
         // const secretsManagerVpcEndpoint = new ec2.CfnVPCEndpoint(this, 'VpcEndpoint', {
         //     serviceName: 'com.amazonaws.us-east-1.secretsmanager',
@@ -108,7 +124,7 @@ export class VpcStack extends cdk.Construct {
         // create secrets manager vpc end point
         const vpcEndpoint = this.vpc.addInterfaceEndpoint('SecretsManagerVpcEndpoint', {
             service: ec2.InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
-            securityGroups: [this.rdsInstanceSecurityGroup],
+            securityGroups: [this.secretsLambdaSecurityGroup],
             subnets: this.vpc.selectSubnets({ subnetType: ec2.SubnetType.PUBLIC }),
             privateDnsEnabled: true
         });

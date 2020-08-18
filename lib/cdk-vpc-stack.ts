@@ -20,7 +20,7 @@ export class CdkVpcStack extends cdk.Stack {
 
     const lambdaProps = {
       vpc: vpcStackEntity.vpc,
-      rdsInstanceSecurityGroup: vpcStackEntity.rdsInstanceSecurityGroup
+      secretsLambdaSecurityGroup: vpcStackEntity.secretsLambdaSecurityGroup
     };
 
     // create sam lambda function rotate SecretsManager
