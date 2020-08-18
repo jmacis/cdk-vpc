@@ -26,6 +26,7 @@ cdk destroy -c env=development --profile my-profile <br />
 
 ## Create Resources
 1 VPC <br />
+1 VPC Endpoint <br />
 1 Internet Gateway <br />
 4 Route Table <br />
 2 Private Subnets <br />
