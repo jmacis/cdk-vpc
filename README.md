@@ -32,5 +32,7 @@ cdk destroy -c env=development --profile my-profile <br />
 2 Public Subnets <br />
 1 Rds Instance Security Group <br />
 1 Read Replica Security Group <br />
+1 EC2 Bastion Security Group <br />
+1 Secrets Lambda Security Group <br />
 1 (SAM) Serverless Application Model Cfn Application <br />
 1 Lambda Function Rotate Secrets <br />
